@@ -1,15 +1,9 @@
-"use client";
-
-import { useState } from "react";
-
 /**
  * Editorial header — sage band on cream, centered tracked wordmark.
  * Inspired by florist/wellness order-form aesthetics: the brand should feel
  * tactile and premium, not SaaS.
  */
 export function Header() {
-  const [logoOk, setLogoOk] = useState(true);
-
   return (
     <header className="bg-primary text-surface">
       {/* The sage band itself */}
@@ -22,27 +16,17 @@ export function Header() {
           />
 
           {/* Center wordmark */}
-          {logoOk ? (
-            // eslint-disable-next-line @next/next/no-img-element -- swappable asset; native onError fallback is intentional
-            <img
-              src="/logo.png"
-              alt="Squeegee Squad LA"
-              className="h-12 w-auto brightness-0 invert"
-              onError={() => setLogoOk(false)}
-            />
-          ) : (
-            <div className="flex flex-col items-center text-center">
-              <span className="tracked text-[10px] font-medium text-surface/70 sm:text-xs">
-                Squeegee Squad
-              </span>
-              <span className="mt-1 text-xl font-serif font-light tracking-[0.18em] sm:text-2xl">
-                LOS&nbsp;ANGELES
-              </span>
-              <span className="tracked mt-1 text-[9px] font-medium text-surface/60 sm:text-[10px]">
-                Window · Pressure · Specialty
-              </span>
-            </div>
-          )}
+          <div className="flex flex-col items-center text-center">
+            <span className="tracked text-[10px] font-medium text-surface/70 sm:text-xs">
+              Squeegee Squad
+            </span>
+            <span className="mt-1 font-serif text-xl font-light tracking-[0.18em] sm:text-2xl">
+              LOS&nbsp;ANGELES
+            </span>
+            <span className="tracked mt-1 text-[9px] font-medium text-surface/60 sm:text-[10px]">
+              Window · Pressure · Specialty
+            </span>
+          </div>
 
           {/* Right rule */}
           <span
@@ -58,7 +42,7 @@ export function Header() {
         </span>
       </div>
 
-      {/* Thin cream accent strip — between band and content, paper-fold feel */}
+      {/* Thin cream accent strip — paper-fold feel between band and content */}
       <div className="h-px w-full bg-surface/20" />
     </header>
   );
