@@ -32,7 +32,7 @@ export const PROPERTY_TYPES = [
 ] as const;
 export type PropertyType = (typeof PROPERTY_TYPES)[number];
 
-/** The 32 services — verbatim. Order preserved from the spec. */
+/** The 36 services — verbatim. Order preserved from the spec. */
 export const SERVICES = [
   "Residential Window Cleaning",
   "Large/Luxury Residential Windows",
@@ -50,7 +50,9 @@ export const SERVICES = [
   "Slip Hazard Removal",
   "Awning Cleaning",
   "Solar Panel Cleaning",
+  "Commercial Solar Panel Cleaning",
   "Gutter Cleaning",
+  "Commercial Gutter Cleaning",
   "Loading Dock Cleaning",
   "Warehouse Cleaning",
   "Tennis / Specialty Surface Cleaning",
@@ -62,8 +64,10 @@ export const SERVICES = [
   "Eviction / Turnover Cleanouts",
   "Property Cleanouts",
   "Post-Construction Cleanup",
+  "Commercial Post-Construction Cleanup",
   "Dumpster Pad Sanitization",
   "Trash Area Cleaning",
+  "Restaurant Exterior Sanitation",
   "Trash Chute Cleaning",
   "Odor / Bacteria Treatment",
 ] as const;

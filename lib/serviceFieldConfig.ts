@@ -114,11 +114,21 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     detailed: ["roofAccess", "pitch", "waterAccess"],
     quantitySource: "feeder",
   },
+  "Commercial Solar Panel Cleaning": {
+    quick: ["panelCount", "stories", "condition", "access"],
+    detailed: ["roofAccess", "pitch", "waterAccess", "complianceNeeds"],
+    quantitySource: "feeder",
+  },
   "Gutter Cleaning": {
     // propertySize is the sole quantity feeder; gutter debris is captured as a
     // Notes line (`buildup`), NOT the engine's Cleanouts-only Debris Level key.
     quick: ["stories", "propertySize", "condition", "access"],
     detailed: ["buildup", "roofAccess"],
+    quantitySource: "feeder",
+  },
+  "Commercial Gutter Cleaning": {
+    quick: ["stories", "buildingSize", "condition", "access"],
+    detailed: ["buildup", "roofAccess", "nightWork"],
     quantitySource: "feeder",
   },
   "Loading Dock Cleaning": {
@@ -176,6 +186,11 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     detailed: ["dust", "interiorExterior"],
     quantitySource: "feeder",
   },
+  "Commercial Post-Construction Cleanup": {
+    quick: ["sqft", "phase", "condition", "access"],
+    detailed: ["dust", "interiorExterior", "complianceNeeds", "nightWork"],
+    quantitySource: "feeder",
+  },
   "Dumpster Pad Sanitization": {
     quick: ["padCountSize", "condition"],
     detailed: ["grease", "odorSource", "waterAccess"],
@@ -184,6 +199,11 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
   "Trash Area Cleaning": {
     quick: ["enclosureCount", "condition"],
     detailed: ["odorSource", "buildup", "waterAccess"],
+    quantitySource: "feeder",
+  },
+  "Restaurant Exterior Sanitation": {
+    quick: ["areaSize", "condition", "access"],
+    detailed: ["grease", "waterAccess", "nightWork", "odorSource"],
     quantitySource: "feeder",
   },
   "Trash Chute Cleaning": {
