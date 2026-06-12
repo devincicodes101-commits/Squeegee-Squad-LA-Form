@@ -35,18 +35,18 @@ export interface ServiceFieldConfig {
 
 export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
   "Residential Window Cleaning": {
-    quick: ["windowCount", "stories", "interiorExterior"],
+    quick: ["windowCount", "stories", "interiorExterior", "condition", "access"],
     detailed: ["screens", "tracks", "hardWater", "frenchPanes", "height"],
     quantitySource: "feeder",
   },
   "Large/Luxury Residential Windows": {
-    quick: ["windowCount", "stories"],
+    quick: ["windowCount", "stories", "condition", "access"],
     detailed: ["screens", "tracks", "hardWater", "frenchPanes", "gatedSecurity"],
     quantitySource: "feeder",
   },
   "Commercial Window Cleaning": {
-    quick: ["paneCount", "stories"],
-    detailed: ["interiorExterior", "height", "access"],
+    quick: ["paneCount", "stories", "condition", "access"],
+    detailed: ["interiorExterior", "height"],
     quantitySource: "feeder",
   },
   "High-Access/Lift Window Cleaning": {
@@ -105,19 +105,19 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Awning Cleaning": {
-    quick: ["linearFeet", "height"],
-    detailed: ["material", "staining", "access"],
+    quick: ["linearFeet", "height", "condition", "access"],
+    detailed: ["material", "staining"],
     quantitySource: "feeder",
   },
   "Solar Panel Cleaning": {
-    quick: ["panelCount", "stories"],
+    quick: ["panelCount", "stories", "condition", "access"],
     detailed: ["roofAccess", "pitch", "waterAccess"],
     quantitySource: "feeder",
   },
   "Gutter Cleaning": {
     // propertySize is the sole quantity feeder; gutter debris is captured as a
     // Notes line (`buildup`), NOT the engine's Cleanouts-only Debris Level key.
-    quick: ["stories", "propertySize"],
+    quick: ["stories", "propertySize", "condition", "access"],
     detailed: ["buildup", "roofAccess"],
     quantitySource: "feeder",
   },
