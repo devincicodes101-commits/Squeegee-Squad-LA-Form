@@ -50,7 +50,7 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "High-Access/Lift Window Cleaning": {
-    quick: ["stories", "access"],
+    quick: ["stories", "access", "condition"],
     detailed: ["height", "complianceNeeds"],
     quantitySource: "one",
   },
@@ -127,8 +127,8 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Warehouse Cleaning": {
-    quick: ["sqft", "condition"],
-    detailed: ["dust", "grease", "access"],
+    quick: ["sqft", "condition", "access"],
+    detailed: ["dust", "grease"],
     quantitySource: "feeder",
   },
   "Tennis / Specialty Surface Cleaning": {
@@ -147,7 +147,7 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Parking Garage Deep Cleaning": {
-    quick: ["levels", "spaces", "condition"],
+    quick: ["levels", "spaces", "condition", "access"],
     detailed: ["oilStains", "drainage", "waterAccess", "nightWork"],
     quantitySource: "spaces",
   },
@@ -157,22 +157,22 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Large Junk Removal": {
-    quick: ["estimatedLoads", "access"],
+    quick: ["estimatedLoads", "access", "condition"],
     detailed: ["dumpFees", "appliances", "stairs", "elevator"],
     quantitySource: "feeder",
   },
   "Eviction / Turnover Cleanouts": {
-    quick: ["propertySize", "debrisLevel"],
+    quick: ["propertySize", "debrisLevel", "condition", "access"],
     detailed: ["odorSource", "bioConcerns", "stairs", "dumpFees"],
     quantitySource: "feeder",
   },
   "Property Cleanouts": {
-    quick: ["propertySize", "debrisLevel"],
-    detailed: ["dumpFees", "access", "odorSource"],
+    quick: ["propertySize", "debrisLevel", "condition", "access"],
+    detailed: ["dumpFees", "odorSource"],
     quantitySource: "feeder",
   },
   "Post-Construction Cleanup": {
-    quick: ["sqft", "phase"],
+    quick: ["sqft", "phase", "condition", "access"],
     detailed: ["dust", "interiorExterior"],
     quantitySource: "feeder",
   },
@@ -187,7 +187,7 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Trash Chute Cleaning": {
-    quick: ["floors", "chutes", "odorSeverity"],
+    quick: ["floors", "chutes", "odorSeverity", "access"],
     detailed: ["buildup", "treatmentType"],
     quantitySource: "floors",
   },
