@@ -147,9 +147,9 @@ export const SERVICE_FIELD_CONFIG: Record<Service, ServiceFieldConfig> = {
     quantitySource: "feeder",
   },
   "Parking Garage Deep Cleaning": {
-    quick: ["levels", "spaces", "condition", "access"],
+    quick: ["sqft", "spaces", "levels", "condition", "access"],
     detailed: ["oilStains", "drainage", "waterAccess", "nightWork"],
-    quantitySource: "spaces",
+    quantitySource: "feeder",
   },
   "Junk Removal": {
     quick: ["loadSize", "heavyItems"],
