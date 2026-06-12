@@ -1,23 +1,39 @@
 @import "tailwindcss";
 
 /*
- * Theme tokens. Swap the brand colors here and the whole app follows.
+ * Theme tokens — refined "premium navy + champagne gold" palette.
+ *
+ * Design philosophy: a cleaning brand is service+trust. Navy says trustworthy
+ * and professional; champagne gold says quality and premium; warm ivory
+ * background reads more like a fine-hotel reception than a cold SaaS app.
+ * Swap any of these here and the whole app follows.
  * (Tailwind v4 reads these `--color-*` vars to generate `bg-*`, `text-*`, etc.)
- * Defaults per brand brief — replace with exact hex when provided.
  */
 @theme {
-  --color-primary: #0b6bcb;
-  --color-primary-dark: #095399;
-  --color-primary-light: #e8f1fb;
-  --color-accent: #19b5a6;
-  --color-accent-dark: #128a7f;
-  --color-accent-light: #e6f7f5;
+  /* Primary — deep refined navy */
+  --color-primary: #1e3a5f;
+  --color-primary-dark: #0f243b;
+  --color-primary-light: #eef2f7;
 
+  /* Accent — champagne gold */
+  --color-accent: #c9a961;
+  --color-accent-dark: #a08544;
+  --color-accent-light: #faf6ec;
+
+  /* Surfaces */
   --color-surface: #ffffff;
-  --color-canvas: #f4f7fb;
-  --color-ink: #0f1b2d;
-  --color-muted: #5b6b7f;
-  --color-line: #e2e8f0;
+  --color-canvas: #f9f7f3;       /* warm ivory, not cold blue-gray */
+  --color-ink: #0a1929;
+  --color-muted: #64748b;
+  --color-line: #e5e3dd;         /* warm border, blends with ivory */
+
+  /* Subtle state colors */
+  --color-success: #15803d;
+  --color-success-light: #f0fdf4;
+  --color-warning: #b45309;
+  --color-warning-light: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-light: #fef2f2;
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -30,6 +46,48 @@ html {
 
 body {
   font-family: var(--font-sans), system-ui, Arial, sans-serif;
+  /* Subtle texture — barely perceptible noise on the ivory, lifts it from "flat" */
+  background-image: radial-gradient(
+    circle at 50% 0%,
+    rgba(201, 169, 97, 0.04) 0%,
+    transparent 60%
+  );
+  background-attachment: fixed;
+}
+
+/* Refined card shadow — soft, layered, subtle */
+.card-elevated {
+  box-shadow:
+    0 1px 2px rgba(15, 36, 59, 0.04),
+    0 4px 12px rgba(15, 36, 59, 0.05),
+    0 12px 32px rgba(15, 36, 59, 0.04);
+}
+
+/* Premium feel — a thin gold underline on key headings */
+.heading-rule {
+  position: relative;
+  display: inline-block;
+}
+.heading-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.35rem;
+  width: 2.5rem;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    var(--color-accent-dark) 100%
+  );
+  border-radius: 2px;
+}
+
+/* Smoother focus ring across the app */
+*:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Respect iOS safe-area for the sticky mobile submit bar. */
