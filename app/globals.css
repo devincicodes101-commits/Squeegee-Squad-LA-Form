@@ -1,39 +1,40 @@
 @import "tailwindcss";
 
 /*
- * Theme tokens — refined "premium navy + champagne gold" palette.
+ * Theme tokens — "warm cream paper + sage" palette.
  *
- * Design philosophy: a cleaning brand is service+trust. Navy says trustworthy
- * and professional; champagne gold says quality and premium; warm ivory
- * background reads more like a fine-hotel reception than a cold SaaS app.
+ * Inspired by editorial / artisan-stationery aesthetics (florist order forms,
+ * fine-paper invitations). The form should feel calm, premium, and tactile —
+ * like a card-stock estimate sheet, not a SaaS console.
+ *
  * Swap any of these here and the whole app follows.
  * (Tailwind v4 reads these `--color-*` vars to generate `bg-*`, `text-*`, etc.)
  */
 @theme {
-  /* Primary — deep refined navy */
-  --color-primary: #1e3a5f;
-  --color-primary-dark: #0f243b;
-  --color-primary-light: #eef2f7;
+  /* Primary — muted sage green */
+  --color-primary: #677a5c;       /* main sage */
+  --color-primary-dark: #4f5f47;  /* deeper forest sage */
+  --color-primary-light: #eaefe3; /* whisper sage */
 
-  /* Accent — champagne gold */
-  --color-accent: #c9a961;
-  --color-accent-dark: #a08544;
-  --color-accent-light: #faf6ec;
+  /* Accent — slightly deeper sage; we stay monochromatic for elegance */
+  --color-accent: #4f5f47;
+  --color-accent-dark: #3a4634;
+  --color-accent-light: #e6ebde;
 
-  /* Surfaces */
-  --color-surface: #ffffff;
-  --color-canvas: #f9f7f3;       /* warm ivory, not cold blue-gray */
-  --color-ink: #0a1929;
-  --color-muted: #64748b;
-  --color-line: #e5e3dd;         /* warm border, blends with ivory */
+  /* Surfaces — warm cream paper, off-white cards */
+  --color-surface: #fbf8f2;       /* card stock */
+  --color-canvas: #f0eae0;        /* warm cream desk */
+  --color-ink: #2a2d26;           /* warm near-black */
+  --color-muted: #787570;         /* warm gray for secondary text */
+  --color-line: #ddd7cb;          /* warm border that blends with cream */
 
-  /* Subtle state colors */
-  --color-success: #15803d;
-  --color-success-light: #f0fdf4;
-  --color-warning: #b45309;
-  --color-warning-light: #fffbeb;
-  --color-danger: #b91c1c;
-  --color-danger-light: #fef2f2;
+  /* Subtle state colors (warm, not neon) */
+  --color-success: #5a7a4f;
+  --color-success-light: #eef3e9;
+  --color-warning: #a3742b;
+  --color-warning-light: #faf3e3;
+  --color-danger: #a64a3d;
+  --color-danger-light: #f9ece8;
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -46,24 +47,40 @@ html {
 
 body {
   font-family: var(--font-sans), system-ui, Arial, sans-serif;
-  /* Subtle texture — barely perceptible noise on the ivory, lifts it from "flat" */
-  background-image: radial-gradient(
-    circle at 50% 0%,
-    rgba(201, 169, 97, 0.04) 0%,
-    transparent 60%
-  );
+
+  /*
+   * Paper texture — barely-there noise + soft sage vignette in the corners.
+   * Both are CSS so we never ship an image. Stack:
+   *   1. fine SVG noise (the grain)
+   *   2. warm sage radial in top-left (page warmth)
+   *   3. subtle vertical fade so the page doesn't feel flat
+   */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.18  0 0 0 0 0.15  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(103, 122, 92, 0.06) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(103, 122, 92, 0.04) 0%,
+      transparent 50%
+    );
   background-attachment: fixed;
+  background-size: 200px 200px, 100% 100%, 100% 100%;
 }
 
-/* Refined card shadow — soft, layered, subtle */
+/* Refined card shadow — soft, layered, subtle. Sits on cream nicely. */
 .card-elevated {
+  background: var(--color-surface);
   box-shadow:
-    0 1px 2px rgba(15, 36, 59, 0.04),
-    0 4px 12px rgba(15, 36, 59, 0.05),
-    0 12px 32px rgba(15, 36, 59, 0.04);
+    0 1px 2px rgba(42, 45, 38, 0.04),
+    0 6px 18px rgba(42, 45, 38, 0.05),
+    0 16px 40px rgba(42, 45, 38, 0.04);
 }
 
-/* Premium feel — a thin gold underline on key headings */
+/* Editorial heading rule — thin sage underline for premium feel */
 .heading-rule {
   position: relative;
   display: inline-block;
@@ -72,20 +89,22 @@ body {
   content: "";
   position: absolute;
   left: 0;
-  bottom: -0.35rem;
-  width: 2.5rem;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--color-accent) 0%,
-    var(--color-accent-dark) 100%
-  );
-  border-radius: 2px;
+  bottom: -0.4rem;
+  width: 2rem;
+  height: 1.5px;
+  background: var(--color-primary);
+  border-radius: 1px;
 }
 
-/* Smoother focus ring across the app */
+/* Tracked-out caps — used for eyebrow labels, badges, footer */
+.tracked {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Smoother sage focus ring across the app */
 *:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
