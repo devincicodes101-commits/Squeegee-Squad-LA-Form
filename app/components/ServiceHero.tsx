@@ -25,7 +25,6 @@ export function ServiceHero({ service }: { service: Service }) {
   const imgSrc = imageForService(service);
   // Per-src failure map so one bad file doesn't break every other category.
   const [failed, setFailed] = useState<Record<string, boolean>>({});
-  const isAvailable = !failed[imgSrc];
 
   return (
     <aside
@@ -39,8 +38,10 @@ export function ServiceHero({ service }: { service: Service }) {
       />
 
       {/* Layer 2 — the photo. `key={imgSrc}` remounts on swap so React mounts
-          a fresh <img> and the heroFade keyframe restarts. */}
-      {isAvailable && (
+          a fresh <img> and the heroFade keyframe restarts. Skipped entirely
+          when (a) the service is in the photoless "general" category or
+          (b) we've recorded a load failure for that specific src. */}
+      {imgSrc && !failed[imgSrc] && (
         <img
           key={imgSrc}
           src={imgSrc}

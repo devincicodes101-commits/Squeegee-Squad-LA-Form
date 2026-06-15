@@ -31,7 +31,10 @@ export type ServiceCategory =
   | "garage"
   | "cleanouts"
   | "construction"
-  | "trash";
+  | "trash"
+  /** Fallback for services without a strong visual match. Renders the gradient
+   *  + label only (no photo) so we never show a misleading image. */
+  | "general";
 
 export const CATEGORY_META: Record<
   ServiceCategory,
@@ -87,6 +90,11 @@ export const CATEGORY_META: Record<
     tagline: "Pressure, sanitize, deodorize",
     gradient: "from-emerald-700 to-emerald-900",
   },
+  general: {
+    label: "Specialty Service",
+    tagline: "Tailored to the job at hand",
+    gradient: "from-primary to-primary-dark",
+  },
 };
 
 export const SERVICE_TO_CATEGORY: Record<Service, ServiceCategory> = {
@@ -110,12 +118,15 @@ export const SERVICE_TO_CATEGORY: Record<Service, ServiceCategory> = {
   // ---- Solar ----
   "Solar Panel Cleaning": "solar",
   "Commercial Solar Panel Cleaning": "solar",
-  // ---- Specialty ----
+  // ---- Specialty (graffiti photo is only a true match for Graffiti Removal) ----
   "Graffiti Removal": "specialty",
-  "Oil Stain Removal / Degreasing": "specialty",
-  "Tennis / Specialty Surface Cleaning": "specialty",
-  "Dog Park / Turf Cleaning": "specialty",
-  "Odor / Bacteria Treatment": "specialty",
+  // Pressure-washing oil off concrete is visually closer to the pressure photo.
+  "Oil Stain Removal / Degreasing": "pressure",
+  // The remaining "specialty" services have no truly representative photo in
+  // our 10 — show the gradient + label only rather than a misleading image.
+  "Tennis / Specialty Surface Cleaning": "general",
+  "Dog Park / Turf Cleaning": "general",
+  "Odor / Bacteria Treatment": "general",
   // ---- Industrial ----
   "Warehouse Cleaning": "industrial",
   "Loading Dock Cleaning": "industrial",
@@ -138,9 +149,14 @@ export const SERVICE_TO_CATEGORY: Record<Service, ServiceCategory> = {
   "Trash Area Cleaning": "trash",
 };
 
-/** Image path for a service's category — drops the photo from /public/services/. */
-export function imageForService(service: Service): string {
+/**
+ * Image path for a service's category — or `null` if the service doesn't have
+ * a truly representative photo in our 10-image set (the "general" category).
+ * Callers should render a gradient-only fallback when null.
+ */
+export function imageForService(service: Service): string | null {
   const cat = SERVICE_TO_CATEGORY[service];
+  if (cat === "general") return null;
   return `/services/${cat}.jpg`;
 }
 
