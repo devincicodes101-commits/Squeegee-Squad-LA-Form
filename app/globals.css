@@ -3,30 +3,30 @@
 /*
  * Theme tokens — "warm cream paper + sage" palette.
  *
- * Inspired by editorial / artisan-stationery aesthetics (florist order forms,
- * fine-paper invitations). The form should feel calm, premium, and tactile —
- * like a card-stock estimate sheet, not a SaaS console.
+ * Inspired by editorial / artisan-stationery aesthetics. The form should feel
+ * calm, premium, and tactile — like a card-stock estimate sheet, not a SaaS
+ * console. Sage green sits across from warm cream paper for natural contrast.
  *
  * Swap any of these here and the whole app follows.
  * (Tailwind v4 reads these `--color-*` vars to generate `bg-*`, `text-*`, etc.)
  */
 @theme {
   /* Primary — muted sage green */
-  --color-primary: #677a5c;       /* main sage */
-  --color-primary-dark: #4f5f47;  /* deeper forest sage */
-  --color-primary-light: #eaefe3; /* whisper sage */
+  --color-primary: #677a5c;
+  --color-primary-dark: #4f5f47;
+  --color-primary-light: #eaefe3;
 
-  /* Accent — slightly deeper sage; we stay monochromatic for elegance */
+  /* Accent — deeper sage for monochromatic elegance */
   --color-accent: #4f5f47;
   --color-accent-dark: #3a4634;
   --color-accent-light: #e6ebde;
 
   /* Surfaces — warm cream paper, off-white cards */
-  --color-surface: #fbf8f2;       /* card stock */
-  --color-canvas: #f0eae0;        /* warm cream desk */
-  --color-ink: #2a2d26;           /* warm near-black */
-  --color-muted: #787570;         /* warm gray for secondary text */
-  --color-line: #ddd7cb;          /* warm border that blends with cream */
+  --color-surface: #fbf8f2;
+  --color-canvas: #f0eae0;
+  --color-ink: #2a2d26;
+  --color-muted: #787570;
+  --color-line: #ddd7cb;
 
   /* Subtle state colors (warm, not neon) */
   --color-success: #5a7a4f;
@@ -36,8 +36,10 @@
   --color-danger: #a64a3d;
   --color-danger-light: #f9ece8;
 
+  /* Typography */
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-cormorant);
 }
 
 html {
@@ -49,38 +51,40 @@ body {
   font-family: var(--font-sans), system-ui, Arial, sans-serif;
 
   /*
-   * Paper texture — barely-there noise + soft sage vignette in the corners.
-   * Both are CSS so we never ship an image. Stack:
-   *   1. fine SVG noise (the grain)
-   *   2. warm sage radial in top-left (page warmth)
-   *   3. subtle vertical fade so the page doesn't feel flat
+   * Layered cleaning-themed background:
+   *   1. Soft scattered sparkles (SVG dots, very low opacity)
+   *   2. Fine paper noise (SVG fractal noise)
+   *   3. Warm sage radial vignettes (top-left + bottom-right)
+   * All CSS — no image assets shipped.
    */
   background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='%23677a5c' fill-opacity='0.06'><circle cx='80' cy='120' r='1.5'/><circle cx='220' cy='80' r='1'/><circle cx='340' cy='180' r='2'/><circle cx='480' cy='90' r='1.2'/><circle cx='550' cy='240' r='1.8'/><circle cx='120' cy='320' r='1.5'/><circle cx='280' cy='400' r='1'/><circle cx='420' cy='340' r='1.6'/><circle cx='510' cy='460' r='1.2'/><circle cx='60' cy='500' r='1.8'/><circle cx='200' cy='560' r='1'/><circle cx='360' cy='520' r='1.4'/></g></svg>"),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.18  0 0 0 0 0.15  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
     radial-gradient(
       circle at 0% 0%,
-      rgba(103, 122, 92, 0.06) 0%,
-      transparent 50%
+      rgba(103, 122, 92, 0.07) 0%,
+      transparent 55%
     ),
     radial-gradient(
       circle at 100% 100%,
-      rgba(103, 122, 92, 0.04) 0%,
-      transparent 50%
+      rgba(103, 122, 92, 0.05) 0%,
+      transparent 55%
     );
   background-attachment: fixed;
-  background-size: 200px 200px, 100% 100%, 100% 100%;
+  background-size: 600px 600px, 200px 200px, 100% 100%, 100% 100%;
 }
 
-/* Refined card shadow — soft, layered, subtle. Sits on cream nicely. */
+/* Refined card shadow — soft, layered, premium. Sits on cream nicely. */
 .card-elevated {
   background: var(--color-surface);
   box-shadow:
     0 1px 2px rgba(42, 45, 38, 0.04),
     0 6px 18px rgba(42, 45, 38, 0.05),
     0 16px 40px rgba(42, 45, 38, 0.04);
+  border: 1px solid rgba(221, 215, 203, 0.4);
 }
 
-/* Editorial heading rule — thin sage underline for premium feel */
+/* Editorial heading rule — thin sage underline */
 .heading-rule {
   position: relative;
   display: inline-block;
@@ -96,7 +100,13 @@ body {
   border-radius: 1px;
 }
 
-/* Tracked-out caps — used for eyebrow labels, badges, footer */
+/* Center variant for hero headings */
+.heading-rule-center::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Tracked-out caps — eyebrow labels, badges, footers */
 .tracked {
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -109,7 +119,34 @@ body {
   border-radius: 4px;
 }
 
-/* Respect iOS safe-area for the sticky mobile submit bar. */
+/* iOS safe-area for the sticky mobile submit bar */
 .pb-safe {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+}
+
+/* Better touch targets on mobile — applies to all interactive form controls */
+@media (max-width: 640px) {
+  button,
+  select,
+  input,
+  textarea,
+  [role="button"] {
+    min-height: 44px;
+  }
+}
+
+/* Smooth fade-in for the form on first paint */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: fadeUp 0.4s ease-out;
 }

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/Header";
 
@@ -13,6 +13,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Editorial serif — used only for the brand wordmark + section headers.
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "Squeegee Squad LA — Estimator",
   description:
@@ -21,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b6bcb",
+  themeColor: "#677a5c",
   width: "device-width",
   initialScale: 1,
 };
@@ -34,13 +41,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="bg-canvas text-ink min-h-full">
         <Header />
         <main className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 sm:py-10">
           {children}
         </main>
+        <footer className="mx-auto mt-12 w-full max-w-4xl px-4 pb-10 pb-safe text-center sm:px-6">
+          <div className="mx-auto mb-4 h-px w-24 bg-line" aria-hidden />
+          <p className="tracked text-[10px] text-muted">
+            Squeegee Squad LA · Window · Pressure · Specialty
+          </p>
+          <p className="mt-1 text-[11px] text-muted">
+            Estimates are preliminary. Final pricing confirmed after site review.
+          </p>
+        </footer>
       </body>
     </html>
   );

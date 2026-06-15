@@ -22,16 +22,25 @@ export function Estimator() {
   }
 
   return (
-    <div className="flex flex-col gap-5">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-ink">
-          New Estimate
+    <div className="flex flex-col gap-6 sm:gap-8">
+      {/* Hero title block — serif, centered, editorial */}
+      <div className="text-center sm:text-left">
+        <span className="tracked text-[10px] font-medium text-primary sm:text-xs">
+          Preliminary Estimate
+        </span>
+        <h1 className="heading-rule heading-rule-center mt-2 font-serif text-3xl font-light tracking-tight text-ink sm:heading-rule sm:text-4xl">
+          New&nbsp;Estimate
         </h1>
-        <p className="mt-1 text-sm text-muted">
-          Generate a preliminary range while door-knocking or on a call. This is
-          never a final quote.
+        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted sm:mx-0 sm:text-[15px]">
+          Generate a preliminary range while door-knocking or on a call.
+          <span className="hidden sm:inline">
+            {" "}
+            This is never a final quote — final pricing is confirmed after site
+            review.
+          </span>
         </p>
       </div>
+
       <EstimatorForm onSuccess={setResult} />
     </div>
   );
