@@ -63,15 +63,17 @@ function Card({
   children: ReactNode;
 }) {
   return (
-    <section className="card-elevated p-5 sm:p-7">
+    <section className="card-elevated p-4 sm:p-6 lg:p-7">
       {title && (
-        <div className="mb-5 flex items-start justify-between gap-3 border-b border-line/70 pb-4">
+        <div className="mb-4 flex items-start justify-between gap-3 border-b border-line/70 pb-3 sm:mb-5 sm:pb-4">
           <div>
             <h2 className="text-base font-bold tracking-tight text-ink sm:text-lg">
               {title}
             </h2>
             {subtitle && (
-              <p className="mt-1 text-sm leading-relaxed text-muted">{subtitle}</p>
+              <p className="mt-0.5 text-[13px] leading-relaxed text-muted sm:mt-1 sm:text-sm">
+                {subtitle}
+              </p>
             )}
           </div>
         </div>
@@ -272,7 +274,7 @@ export function EstimatorForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onValid)} className="flex flex-col gap-5 pb-28 sm:pb-0">
+    <form onSubmit={handleSubmit(onValid)} className="flex flex-col gap-4 pb-24 sm:gap-5 sm:pb-0">
       <Card>
         <Controller
           control={control}

@@ -47,12 +47,12 @@ export function Header() {
         <rect width="100%" height="100%" fill="url(#header-grid)" />
       </svg>
 
-      {/* Header content */}
-      <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-5 sm:px-6 sm:py-6">
+      {/* Header content — tight on phone, comfortable on tablet+ */}
+      <div className="relative mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-3.5 sm:gap-4 sm:px-6 sm:py-6">
         {/* Left — brand mark */}
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
           {/* Logo squeegee glyph */}
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface/15 backdrop-blur-sm ring-1 ring-surface/25 sm:h-11 sm:w-11">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-surface/15 backdrop-blur-sm ring-1 ring-surface/25 sm:h-11 sm:w-11">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -74,22 +74,22 @@ export function Header() {
               />
             </svg>
           </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-base font-bold tracking-tight text-surface sm:text-lg">
+          <div className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate text-sm font-bold tracking-tight text-surface sm:text-lg">
               Squeegee Squad
             </span>
-            <span className="tracked text-[9px] font-semibold text-accent-light sm:text-[10px]">
+            <span className="tracked truncate text-[9px] font-semibold text-accent-light sm:text-[10px]">
               Los Angeles · Estimator
             </span>
           </div>
         </div>
 
         {/* Right — status pill */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <span className="hidden text-[11px] font-medium text-surface/70 sm:inline">
             Internal use only
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-surface/25 bg-surface/10 px-2.5 py-1 text-[10px] font-semibold text-surface backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-surface/25 bg-surface/10 px-2 py-0.5 text-[9px] font-semibold text-surface backdrop-blur-md sm:px-3 sm:py-1.5 sm:text-xs">
             <span
               className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent"
               aria-hidden

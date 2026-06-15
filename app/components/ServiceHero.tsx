@@ -28,7 +28,7 @@ export function ServiceHero({ service }: { service: Service }) {
 
   return (
     <aside
-      className="relative isolate w-full overflow-hidden rounded-3xl border border-line/60 bg-primary shadow-2xl shadow-primary/10 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]"
+      className="relative isolate w-full overflow-hidden rounded-2xl border border-line/60 bg-primary shadow-xl shadow-primary/10 sm:rounded-3xl sm:shadow-2xl lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]"
       aria-label={`${meta.label} hero panel`}
     >
       {/* Layer 1 — category gradient (always present; visible behind any image) */}
@@ -78,10 +78,10 @@ export function ServiceHero({ service }: { service: Service }) {
         <circle cx="340" cy="480" r="2.5" fill="url(#hero-spark)" />
       </svg>
 
-      {/* Foreground content */}
-      <div className="relative flex h-full min-h-[180px] flex-col justify-between p-5 text-surface sm:min-h-[220px] sm:p-7 lg:p-8">
-        <div className="flex items-center justify-between gap-3">
-          <span className="tracked inline-flex items-center gap-2 rounded-full border border-surface/30 bg-surface/10 px-2.5 py-1 text-[10px] font-semibold backdrop-blur-sm">
+      {/* Foreground content — compact on phone, full on tablet+, lush on desktop */}
+      <div className="relative flex h-full min-h-[140px] flex-col justify-between p-4 text-surface sm:min-h-[220px] sm:p-7 lg:p-8">
+        <div className="flex items-center justify-between gap-2">
+          <span className="tracked inline-flex items-center gap-1.5 rounded-full border border-surface/30 bg-surface/10 px-2 py-0.5 text-[9px] font-semibold backdrop-blur-sm sm:gap-2 sm:px-2.5 sm:py-1 sm:text-[10px]">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
             Quoting Now
           </span>
@@ -90,19 +90,20 @@ export function ServiceHero({ service }: { service: Service }) {
           </span>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <span className="tracked text-[10px] font-semibold text-accent-light">
+        <div className="flex flex-col gap-1.5 sm:gap-2">
+          <span className="tracked text-[9px] font-semibold text-accent-light sm:text-[10px]">
             Service category
           </span>
-          <h2 className="text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
+          <h2 className="text-lg font-bold leading-tight tracking-tight sm:text-3xl lg:text-4xl">
             {meta.label}
           </h2>
-          <p className="max-w-xs text-sm font-medium text-surface/85 sm:text-base">
+          <p className="max-w-xs text-xs font-medium text-surface/85 sm:text-base">
             {meta.tagline}
           </p>
-          <p className="mt-3 max-w-xs text-xs text-surface/75 sm:text-sm">
+          {/* Service name + disclaimer — hide disclaimer on phone (saves vertical) */}
+          <p className="mt-1 max-w-xs text-[11px] text-surface/85 sm:mt-3 sm:text-sm">
             <span className="font-semibold text-surface/95">{service}</span>
-            <span className="mt-1 block text-surface/60">
+            <span className="mt-1 hidden text-surface/60 sm:block">
               Premium service-grade estimate. Final pricing confirmed after site
               review.
             </span>
