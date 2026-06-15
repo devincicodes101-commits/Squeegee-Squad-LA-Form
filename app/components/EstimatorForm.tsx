@@ -101,6 +101,19 @@ const DEFAULTS: Partial<FormSchema> = {
   debrisLevel: "",
   extras: {},
   photos: false,
+  // Christiana §13 — Fixed Subcontractor Quote (all blank by default)
+  hasFixedSubQuote: "",
+  fixedSubQuoteAmount: 0,
+  fixedSubQuoteIncludesPassThrough: "",
+  // Christiana §16 — Manual Overrides (all blank/zero by default)
+  overrideLow: 0,
+  overrideHigh: 0,
+  overrideConfidence: "",
+  overrideReviewRequired: "",
+  overrideReviewReason: "",
+  overrideSubPayout: 0,
+  overridePassThrough: 0,
+  overrideCustomerMessage: "",
 };
 
 /**
@@ -460,6 +473,114 @@ export function EstimatorForm({
               hint="Service-specific details you enter above are added here automatically."
               error={errors.notes?.message}
               {...register("notes")}
+            />
+          </div>
+        </Card>
+
+        {/* Christiana §13 — Fixed Subcontractor Quote (internal only) */}
+        <Card
+          title="Fixed Subcontractor Quote"
+          subtitle="Internal — protects sell price when we have a fixed quote from a sub. Leave blank if not applicable."
+        >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <SelectField
+              id="hasFixedSubQuote"
+              label="Have a fixed sub quote?"
+              options={["", "Yes", "No"]}
+              placeholder="—"
+              error={errors.hasFixedSubQuote?.message}
+              {...register("hasFixedSubQuote")}
+            />
+            <TextField
+              id="fixedSubQuoteAmount"
+              label="Fixed quote amount ($)"
+              inputMode="numeric"
+              placeholder="e.g. 900"
+              hint="Sub's fixed quote — used to calculate protected sell price ÷ 0.45."
+              error={errors.fixedSubQuoteAmount?.message}
+              {...register("fixedSubQuoteAmount", { valueAsNumber: true })}
+            />
+            <SelectField
+              id="fixedSubQuoteIncludesPassThrough"
+              label="Quote includes pass-through?"
+              options={["", "Yes", "No"]}
+              placeholder="—"
+              hint="If Yes, sub's quote covers disposal/equipment/etc."
+              error={errors.fixedSubQuoteIncludesPassThrough?.message}
+              {...register("fixedSubQuoteIncludesPassThrough")}
+            />
+          </div>
+        </Card>
+
+        {/* Christiana §16 — Manual Override Fields (internal only) */}
+        <Card
+          title="Manual Overrides"
+          subtitle="Internal — override any computed value. Original values are preserved in the result. Leave all blank to use the engine's numbers."
+        >
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <TextField
+              id="overrideLow"
+              label="Override low estimate ($)"
+              inputMode="numeric"
+              placeholder="—"
+              error={errors.overrideLow?.message}
+              {...register("overrideLow", { valueAsNumber: true })}
+            />
+            <TextField
+              id="overrideHigh"
+              label="Override high estimate ($)"
+              inputMode="numeric"
+              placeholder="—"
+              error={errors.overrideHigh?.message}
+              {...register("overrideHigh", { valueAsNumber: true })}
+            />
+            <SelectField
+              id="overrideConfidence"
+              label="Override confidence"
+              options={["", "High", "Medium", "Low"]}
+              placeholder="—"
+              error={errors.overrideConfidence?.message}
+              {...register("overrideConfidence")}
+            />
+            <SelectField
+              id="overrideReviewRequired"
+              label="Override review required"
+              options={["", "YES", "NO"]}
+              placeholder="—"
+              error={errors.overrideReviewRequired?.message}
+              {...register("overrideReviewRequired")}
+            />
+            <TextField
+              id="overrideSubPayout"
+              label="Override sub payout ($)"
+              inputMode="numeric"
+              placeholder="—"
+              error={errors.overrideSubPayout?.message}
+              {...register("overrideSubPayout", { valueAsNumber: true })}
+            />
+            <TextField
+              id="overridePassThrough"
+              label="Override pass-through ($)"
+              inputMode="numeric"
+              placeholder="—"
+              error={errors.overridePassThrough?.message}
+              {...register("overridePassThrough", { valueAsNumber: true })}
+            />
+          </div>
+          <div className="mt-4 flex flex-col gap-4">
+            <TextAreaField
+              id="overrideReviewReason"
+              label="Override review reason"
+              placeholder="Why this estimate needs (or doesn't need) review…"
+              error={errors.overrideReviewReason?.message}
+              {...register("overrideReviewReason")}
+            />
+            <TextAreaField
+              id="overrideCustomerMessage"
+              label="Override customer-facing message"
+              placeholder="Custom wording to send the customer — leave blank to use the default template."
+              error={errors.overrideCustomerMessage?.message}
+              {...register("overrideCustomerMessage")}
             />
           </div>
         </Card>

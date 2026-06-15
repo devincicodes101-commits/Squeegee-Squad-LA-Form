@@ -15,6 +15,7 @@ import type {
   Access,
   CleaningPhase,
   Condition,
+  ConfidenceOverride,
   DebrisLevel,
   EstimateMode,
   LaLogistics,
@@ -24,8 +25,10 @@ import type {
   PassThroughType,
   PropertyType,
   Recurring,
+  ReviewOverride,
   Service,
   Urgency,
+  YesNoBlank,
 } from "./constants";
 
 /* ------------------------------------------------------------------ */
@@ -80,6 +83,25 @@ export interface FormState {
 
   // Presence-only for v1. See the upload seam in the form component.
   photos: boolean;
+
+  // Christiana §13 — Fixed Subcontractor Quote (internal only).
+  // When `hasFixedSubQuote === "Yes"` and `fixedSubQuoteAmount > 0`, the engine
+  // calculates a protected minimum sell price and floors the estimate at it.
+  hasFixedSubQuote: YesNoBlank;
+  fixedSubQuoteAmount: number;
+  fixedSubQuoteIncludesPassThrough: YesNoBlank;
+
+  // Christiana §16 — Manual Override Fields (internal only).
+  // Empty/zero values mean "no override, use computed value". Originals are
+  // preserved in the engine response so we can show the rep both numbers.
+  overrideLow: number;
+  overrideHigh: number;
+  overrideConfidence: ConfidenceOverride;
+  overrideReviewRequired: ReviewOverride;
+  overrideReviewReason: string;
+  overrideSubPayout: number;
+  overridePassThrough: number;
+  overrideCustomerMessage: string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -118,6 +140,21 @@ export interface N8nEstimatePayload {
   "Debris Level (Cleanouts only)": string;
   "Estimated Crew Hours (internal sanity check)": number;
   "Notes (optional)": string;
+
+  // Christiana §13 — Fixed Subcontractor Quote (internal-only inputs)
+  "Fixed Sub Quote — Has? (internal §13)": string;
+  "Fixed Sub Quote — Amount ($) (internal §13)": number;
+  "Fixed Sub Quote — Includes pass-through? (internal §13)": string;
+
+  // Christiana §16 — Manual Overrides (internal-only inputs)
+  "Override — Low Estimate ($) (internal §16)": number;
+  "Override — High Estimate ($) (internal §16)": number;
+  "Override — Confidence (internal §16)": string;
+  "Override — Review Required (internal §16)": string;
+  "Override — Review Reason (internal §16)": string;
+  "Override — Sub Payout ($) (internal §16)": number;
+  "Override — Pass-through ($) (internal §16)": number;
+  "Override — Customer Message (internal §16)": string;
 }
 
 /* ------------------------------------------------------------------ */
@@ -199,6 +236,24 @@ export interface EstimateResult {
   customer_copy: string;
   bundle_recommendation: string;
   range_math: string;
+
+  // Christiana §13 + §16 additions (all optional — present when fields used)
+  fixed_sub_quote_has?: string;
+  fixed_sub_quote_amount?: string | number;
+  fixed_sub_quote_includes_pt?: string;
+  protected_min_low?: string | number;
+  protected_min_high?: string | number;
+  fixed_quote_applied?: string;
+  override_applied?: string;
+  overrides_applied_list?: string;
+  original_estimate_low?: number;
+  original_estimate_high?: number;
+  original_confidence?: string;
+  original_review_flag?: string;
+  original_sub_payout_low?: number;
+  original_sub_payout_high?: number;
+  original_pass_through?: number;
+  original_customer_copy?: string;
 }
 
 /* ------------------------------------------------------------------ */

@@ -156,6 +156,20 @@ export const DEBRIS_LEVELS = [
 ] as const;
 export type DebrisLevel = (typeof DEBRIS_LEVELS)[number];
 
+/* ---- Christiana §13 + §16 — internal-only options ---- */
+
+/** Yes/No used for fixed-sub-quote toggles. Empty string = "not set". */
+export const YES_NO_BLANK = ["", "Yes", "No"] as const;
+export type YesNoBlank = (typeof YES_NO_BLANK)[number];
+
+/** Confidence override options — blank means "no override, use computed". */
+export const CONFIDENCE_OVERRIDE = ["", "High", "Medium", "Low"] as const;
+export type ConfidenceOverride = (typeof CONFIDENCE_OVERRIDE)[number];
+
+/** Review-required override — blank means "use computed". */
+export const REVIEW_OVERRIDE = ["", "YES", "NO"] as const;
+export type ReviewOverride = (typeof REVIEW_OVERRIDE)[number];
+
 /*
  * Per-service field visibility, quantity unit hints, and the
  * floors/chutes/spaces/levels/phase/debris reveals now live in the field

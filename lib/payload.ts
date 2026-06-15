@@ -168,6 +168,44 @@ export function toN8nPayload(form: FormState): N8nEstimatePayload {
     // Notes always carries the folded service extras (stories, interior/ext,
     // severity wording, …); the rep's free-text notes ride along in Detailed.
     "Notes (optional)": buildNotes(form, detailed),
+
+    // === Christiana §13 — Fixed Subcontractor Quote (internal-only) ===
+    // Sent only in Detailed mode. Engine treats blanks/zeros as "not set".
+    "Fixed Sub Quote — Has? (internal §13)": detailed
+      ? (form.hasFixedSubQuote ?? "")
+      : "",
+    "Fixed Sub Quote — Amount ($) (internal §13)": detailed
+      ? Number(form.fixedSubQuoteAmount) || 0
+      : 0,
+    "Fixed Sub Quote — Includes pass-through? (internal §13)": detailed
+      ? (form.fixedSubQuoteIncludesPassThrough ?? "")
+      : "",
+
+    // === Christiana §16 — Manual Overrides (internal-only) ===
+    "Override — Low Estimate ($) (internal §16)": detailed
+      ? Number(form.overrideLow) || 0
+      : 0,
+    "Override — High Estimate ($) (internal §16)": detailed
+      ? Number(form.overrideHigh) || 0
+      : 0,
+    "Override — Confidence (internal §16)": detailed
+      ? (form.overrideConfidence ?? "")
+      : "",
+    "Override — Review Required (internal §16)": detailed
+      ? (form.overrideReviewRequired ?? "")
+      : "",
+    "Override — Review Reason (internal §16)": detailed
+      ? (form.overrideReviewReason ?? "").trim()
+      : "",
+    "Override — Sub Payout ($) (internal §16)": detailed
+      ? Number(form.overrideSubPayout) || 0
+      : 0,
+    "Override — Pass-through ($) (internal §16)": detailed
+      ? Number(form.overridePassThrough) || 0
+      : 0,
+    "Override — Customer Message (internal §16)": detailed
+      ? (form.overrideCustomerMessage ?? "").trim()
+      : "",
   };
 
   // Dev-only contract invariant: a future change can't silently drop a key or
@@ -211,6 +249,17 @@ function assertWireContract(payload: N8nEstimatePayload): void {
     "Debris Level (Cleanouts only)",
     "Estimated Crew Hours (internal sanity check)",
     "Notes (optional)",
+    "Fixed Sub Quote — Has? (internal §13)",
+    "Fixed Sub Quote — Amount ($) (internal §13)",
+    "Fixed Sub Quote — Includes pass-through? (internal §13)",
+    "Override — Low Estimate ($) (internal §16)",
+    "Override — High Estimate ($) (internal §16)",
+    "Override — Confidence (internal §16)",
+    "Override — Review Required (internal §16)",
+    "Override — Review Reason (internal §16)",
+    "Override — Sub Payout ($) (internal §16)",
+    "Override — Pass-through ($) (internal §16)",
+    "Override — Customer Message (internal §16)",
   ];
   for (const k of REQUIRED_KEYS) {
     if (!(k in payload)) throw new Error(`toN8nPayload missing key: ${k}`);
@@ -225,6 +274,11 @@ function assertWireContract(payload: N8nEstimatePayload): void {
     "Spaces (Parking Garage only)",
     "Levels (Parking Garage only)",
     "Estimated Crew Hours (internal sanity check)",
+    "Fixed Sub Quote — Amount ($) (internal §13)",
+    "Override — Low Estimate ($) (internal §16)",
+    "Override — High Estimate ($) (internal §16)",
+    "Override — Sub Payout ($) (internal §16)",
+    "Override — Pass-through ($) (internal §16)",
   ];
   for (const k of NUMBER_KEYS) {
     const v = payload[k];

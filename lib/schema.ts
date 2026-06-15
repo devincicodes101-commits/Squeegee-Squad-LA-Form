@@ -14,6 +14,7 @@ import {
   ACCESS_OPTIONS,
   CLEANING_PHASES,
   CONDITIONS,
+  CONFIDENCE_OVERRIDE,
   DEBRIS_LEVELS,
   ESTIMATE_MODES,
   LA_LOGISTICS_OPTIONS,
@@ -23,8 +24,10 @@ import {
   PASS_THROUGH_TYPES,
   PROPERTY_TYPES,
   RECURRING_OPTIONS,
+  REVIEW_OVERRIDE,
   SERVICES,
   URGENCY_OPTIONS,
+  YES_NO_BLANK,
 } from "./constants";
 import type { FormState } from "./types";
 import { quantityFeeder } from "./serviceFieldConfig";
@@ -79,6 +82,21 @@ export const formSchema = z.object({
   extras: z.record(z.string(), z.string()),
 
   photos: z.boolean(),
+
+  // Christiana §13 — Fixed Subcontractor Quote (internal only)
+  hasFixedSubQuote: z.enum(YES_NO_BLANK),
+  fixedSubQuoteAmount: nonNegInt,
+  fixedSubQuoteIncludesPassThrough: z.enum(YES_NO_BLANK),
+
+  // Christiana §16 — Manual Override Fields (internal only)
+  overrideLow: nonNegInt,
+  overrideHigh: nonNegInt,
+  overrideConfidence: z.enum(CONFIDENCE_OVERRIDE),
+  overrideReviewRequired: z.enum(REVIEW_OVERRIDE),
+  overrideReviewReason: z.string(),
+  overrideSubPayout: nonNegInt,
+  overridePassThrough: nonNegInt,
+  overrideCustomerMessage: z.string(),
 }).superRefine((data, ctx) => {
   // Service-aware requiredness: a field is required only when the active
   // service surfaces it as a core input. Hidden fields are never required.
