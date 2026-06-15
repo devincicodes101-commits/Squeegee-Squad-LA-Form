@@ -48,6 +48,19 @@ function form(service: Service, over: Partial<FormState>): FormState {
     debrisLevel: "",
     extras: {},
     photos: false,
+    // Christiana §13 — Fixed Subcontractor Quote (internal, blank by default)
+    hasFixedSubQuote: "",
+    fixedSubQuoteAmount: 0,
+    fixedSubQuoteIncludesPassThrough: "",
+    // Christiana §16 — Manual Overrides (internal, blank/zero by default)
+    overrideLow: 0,
+    overrideHigh: 0,
+    overrideConfidence: "",
+    overrideReviewRequired: "",
+    overrideReviewReason: "",
+    overrideSubPayout: 0,
+    overridePassThrough: 0,
+    overrideCustomerMessage: "",
     ...over,
   };
 }
