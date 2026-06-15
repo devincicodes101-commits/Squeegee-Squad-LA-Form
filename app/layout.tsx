@@ -1,23 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "./components/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Modern, professional sans — used app-wide.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Editorial serif — used only for the brand wordmark + section headers.
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  weight: ["300", "400", "500"],
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#677a5c",
+  themeColor: "#0e4f73",
   width: "device-width",
   initialScale: 1,
 };
@@ -39,18 +29,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="bg-canvas text-ink min-h-full">
         <Header />
-        <main className="mx-auto w-full max-w-4xl px-4 py-6 sm:px-6 sm:py-10">
+        <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10">
           {children}
         </main>
-        <footer className="mx-auto mt-12 w-full max-w-4xl px-4 pb-10 pb-safe text-center sm:px-6">
+        <footer className="mx-auto mt-12 w-full max-w-7xl px-4 pb-10 pb-safe text-center sm:px-6">
           <div className="mx-auto mb-4 h-px w-24 bg-line" aria-hidden />
-          <p className="tracked text-[10px] text-muted">
+          <p className="tracked text-[10px] font-semibold text-muted">
             Squeegee Squad LA · Window · Pressure · Specialty
           </p>
           <p className="mt-1 text-[11px] text-muted">

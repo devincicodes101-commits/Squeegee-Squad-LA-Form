@@ -12,10 +12,10 @@ import type {
 } from "react";
 
 const inputBase =
-  "w-full rounded-xl border bg-surface px-3.5 py-3 text-base text-ink outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/30 disabled:opacity-60";
+  "w-full rounded-xl border-2 bg-surface px-4 py-3 text-[15px] text-ink shadow-sm outline-none transition-all duration-200 placeholder:text-muted/60 hover:border-line/80 focus:border-accent focus:ring-4 focus:ring-accent/15 focus:shadow-md disabled:opacity-60";
 
 function borderClass(error?: string) {
-  return error ? "border-red-400" : "border-line";
+  return error ? "border-red-400 focus:border-red-500 focus:ring-red-200" : "border-line";
 }
 
 export function FieldShell({

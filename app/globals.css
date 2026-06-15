@@ -1,45 +1,44 @@
 @import "tailwindcss";
 
 /*
- * Theme tokens — "warm cream paper + sage" palette.
+ * Theme tokens — "premium deep teal + crisp white" cleaning-services palette.
  *
- * Inspired by editorial / artisan-stationery aesthetics. The form should feel
- * calm, premium, and tactile — like a card-stock estimate sheet, not a SaaS
- * console. Sage green sits across from warm cream paper for natural contrast.
+ * The product should feel like a high-end professional service tool — fresh
+ * whites for surfaces, a deep teal for trust and authority, and a brighter
+ * cyan-teal accent for actions. Subtle slate ink for text. No heavy textures
+ * here — the per-service hero photo carries the visual weight.
  *
- * Swap any of these here and the whole app follows.
- * (Tailwind v4 reads these `--color-*` vars to generate `bg-*`, `text-*`, etc.)
+ * Tailwind v4 reads these `--color-*` vars to generate `bg-*`, `text-*`, etc.
  */
 @theme {
-  /* Primary — muted sage green */
-  --color-primary: #677a5c;
-  --color-primary-dark: #4f5f47;
-  --color-primary-light: #eaefe3;
+  /* Primary — deep teal (trust, water, professional services) */
+  --color-primary: #0e4f73;
+  --color-primary-dark: #073650;
+  --color-primary-light: #dceef4;
 
-  /* Accent — deeper sage for monochromatic elegance */
-  --color-accent: #4f5f47;
-  --color-accent-dark: #3a4634;
-  --color-accent-light: #e6ebde;
+  /* Accent — brighter cyan-teal (CTA, focus rings, highlights) */
+  --color-accent: #06b6d4;
+  --color-accent-dark: #0891b2;
+  --color-accent-light: #cffafe;
 
-  /* Surfaces — warm cream paper, off-white cards */
-  --color-surface: #fbf8f2;
-  --color-canvas: #f0eae0;
-  --color-ink: #2a2d26;
-  --color-muted: #787570;
-  --color-line: #ddd7cb;
+  /* Surfaces — crisp white + subtle slate canvas */
+  --color-surface: #ffffff;
+  --color-canvas: #f5f9fc;
+  --color-ink: #0f172a;
+  --color-muted: #64748b;
+  --color-line: #e2e8f0;
 
-  /* Subtle state colors (warm, not neon) */
-  --color-success: #5a7a4f;
-  --color-success-light: #eef3e9;
-  --color-warning: #a3742b;
-  --color-warning-light: #faf3e3;
-  --color-danger: #a64a3d;
-  --color-danger-light: #f9ece8;
+  /* State colors (clean, modern, not neon) */
+  --color-success: #059669;
+  --color-success-light: #d1fae5;
+  --color-warning: #d97706;
+  --color-warning-light: #fef3c7;
+  --color-danger: #dc2626;
+  --color-danger-light: #fee2e2;
 
-  /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-cormorant);
+  /* Typography — Inter for body, set by next/font in layout.tsx */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-inter);
 }
 
 html {
@@ -48,75 +47,88 @@ html {
 }
 
 body {
-  font-family: var(--font-sans), system-ui, Arial, sans-serif;
+  font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
 
   /*
-   * Layered cleaning-themed background:
-   *   1. Soft scattered sparkles (SVG dots, very low opacity)
-   *   2. Fine paper noise (SVG fractal noise)
-   *   3. Warm sage radial vignettes (top-left + bottom-right)
-   * All CSS — no image assets shipped.
+   * Premium ambient background:
+   *   1. Soft cyan radial wash (top-left) — adds depth without color competing
+   *   2. Subtle slate gradient base
+   * Pure CSS — no image assets shipped.
    */
   background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='600' height='600' viewBox='0 0 600 600'><g fill='%23677a5c' fill-opacity='0.06'><circle cx='80' cy='120' r='1.5'/><circle cx='220' cy='80' r='1'/><circle cx='340' cy='180' r='2'/><circle cx='480' cy='90' r='1.2'/><circle cx='550' cy='240' r='1.8'/><circle cx='120' cy='320' r='1.5'/><circle cx='280' cy='400' r='1'/><circle cx='420' cy='340' r='1.6'/><circle cx='510' cy='460' r='1.2'/><circle cx='60' cy='500' r='1.8'/><circle cx='200' cy='560' r='1'/><circle cx='360' cy='520' r='1.4'/></g></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.18  0 0 0 0 0.15  0 0 0 0.08 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"),
     radial-gradient(
       circle at 0% 0%,
-      rgba(103, 122, 92, 0.07) 0%,
-      transparent 55%
+      rgba(6, 182, 212, 0.06) 0%,
+      transparent 50%
     ),
     radial-gradient(
       circle at 100% 100%,
-      rgba(103, 122, 92, 0.05) 0%,
+      rgba(14, 79, 115, 0.05) 0%,
       transparent 55%
-    );
+    ),
+    linear-gradient(180deg, #f5f9fc 0%, #ffffff 100%);
   background-attachment: fixed;
-  background-size: 600px 600px, 200px 200px, 100% 100%, 100% 100%;
 }
 
-/* Refined card shadow — soft, layered, premium. Sits on cream nicely. */
+/* Premium card — refined shadow stack, sits on white nicely. */
 .card-elevated {
   background: var(--color-surface);
+  border: 1px solid rgba(226, 232, 240, 0.7);
+  border-radius: 1rem;
   box-shadow:
-    0 1px 2px rgba(42, 45, 38, 0.04),
-    0 6px 18px rgba(42, 45, 38, 0.05),
-    0 16px 40px rgba(42, 45, 38, 0.04);
-  border: 1px solid rgba(221, 215, 203, 0.4);
+    0 1px 2px rgba(14, 79, 115, 0.04),
+    0 4px 12px rgba(14, 79, 115, 0.04),
+    0 24px 48px -12px rgba(14, 79, 115, 0.08);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card-elevated:hover {
+  box-shadow:
+    0 1px 2px rgba(14, 79, 115, 0.04),
+    0 8px 24px rgba(14, 79, 115, 0.07),
+    0 32px 64px -16px rgba(14, 79, 115, 0.12);
 }
 
-/* Editorial heading rule — thin sage underline */
-.heading-rule {
-  position: relative;
-  display: inline-block;
+/* Primary CTA — deep teal → bright accent gradient with depth */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent-dark) 100%);
+  color: white;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: 0.875rem;
+  padding: 0.875rem 1.5rem;
+  min-height: 48px;
+  box-shadow:
+    0 1px 2px rgba(14, 79, 115, 0.15),
+    0 8px 20px -4px rgba(14, 79, 115, 0.3);
+  transition: all 0.2s ease;
 }
-.heading-rule::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -0.4rem;
-  width: 2rem;
-  height: 1.5px;
-  background: var(--color-primary);
-  border-radius: 1px;
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 2px rgba(14, 79, 115, 0.15),
+    0 12px 28px -4px rgba(14, 79, 115, 0.4);
 }
-
-/* Center variant for hero headings */
-.heading-rule-center::after {
-  left: 50%;
-  transform: translateX(-50%);
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* Tracked-out caps — eyebrow labels, badges, footers */
 .tracked {
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
-/* Smoother sage focus ring across the app */
+/* Premium focus ring — accent cyan, layered shadow */
 *:focus-visible {
-  outline: 2px solid var(--color-primary);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 /* iOS safe-area for the sticky mobile submit bar */
@@ -124,22 +136,22 @@ body {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
 }
 
-/* Better touch targets on mobile — applies to all interactive form controls */
-@media (max-width: 640px) {
+/* 48px touch targets on mobile (boss spec) */
+@media (max-width: 768px) {
   button,
   select,
   input,
   textarea,
   [role="button"] {
-    min-height: 44px;
+    min-height: 48px;
   }
 }
 
-/* Smooth fade-in for the form on first paint */
+/* Smooth entrance on first paint */
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -148,5 +160,21 @@ body {
 }
 
 main {
-  animation: fadeUp 0.4s ease-out;
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Subtle slide-in for the hero panel */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+aside[aria-label$="hero panel"] {
+  animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }

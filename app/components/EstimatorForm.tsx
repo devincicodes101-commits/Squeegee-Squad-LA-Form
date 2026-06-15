@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   Controller,
   useForm,
@@ -37,8 +37,8 @@ import {
   SelectField,
   TextAreaField,
   TextField,
-  Toggle,
 } from "./fields";
+import { PhotoAnalyzer } from "./PhotoAnalyzer";
 
 /** Animated reveal for conditional sections (grid-rows 0fr → 1fr). */
 function Reveal({ open, children }: { open: boolean; children: ReactNode }) {
@@ -63,11 +63,17 @@ function Card({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-line bg-surface p-4 shadow-sm sm:p-6">
+    <section className="card-elevated p-5 sm:p-7">
       {title && (
-        <div className="mb-4">
-          <h2 className="text-base font-bold text-ink">{title}</h2>
-          {subtitle && <p className="mt-0.5 text-sm text-muted">{subtitle}</p>}
+        <div className="mb-5 flex items-start justify-between gap-3 border-b border-line/70 pb-4">
+          <div>
+            <h2 className="text-base font-bold tracking-tight text-ink sm:text-lg">
+              {title}
+            </h2>
+            {subtitle && (
+              <p className="mt-1 text-sm leading-relaxed text-muted">{subtitle}</p>
+            )}
+          </div>
         </div>
       )}
       {children}
@@ -207,14 +213,17 @@ function DynamicField({
 
 export function EstimatorForm({
   onSuccess,
+  onServiceChange,
 }: {
   onSuccess: (result: EstimateResult) => void;
+  onServiceChange?: (service: FormSchema["service"]) => void;
 }) {
   const {
     register,
     handleSubmit,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -228,6 +237,12 @@ export function EstimatorForm({
   const estimateMode = watch("estimateMode");
   const service = watch("service");
   const detailed = estimateMode === "Detailed";
+
+  // Bubble service changes up to the parent so the ServiceHero panel can swap
+  // its image as the rep selects different services.
+  useEffect(() => {
+    onServiceChange?.(service);
+  }, [service, onServiceChange]);
 
   const quickFields = fieldsForService(service, false);
   const detailedAdds = SERVICE_FIELD_CONFIG[service].detailed;
@@ -391,23 +406,15 @@ export function EstimatorForm({
         </div>
       </Card>
 
-      {/* Photos — never blocks submit. v1 = presence-only boolean.
-          UPLOAD SEAM: replace this toggle with a real file input + upload,
-          then set `photos` true when ≥1 file is attached and send file refs
-          alongside the payload. The engine only checks truthiness today. */}
-      <Card title="Photos" subtitle="Optional — tightens the range and bumps confidence.">
-        <Controller
-          control={control}
-          name="photos"
-          render={({ field }) => (
-            <Toggle
-              label="Photos attached"
-              hint="Toggle on if the rep has site photos. (Real upload coming later.)"
-              checked={field.value}
-              onChange={field.onChange}
-            />
-          )}
-        />
+      {/* Photo analysis — uploads run through GPT-4o Vision server-side.
+          The analyzer sets `photos: true` after a successful read (§10 confidence
+          boost) and can apply detected condition/access/quantity/stories to the
+          form. Rep can always override before submit. */}
+      <Card
+        title="Photo analysis"
+        subtitle="Optional — AI reads the photo and pre-fills the form. Tightens the range and bumps confidence."
+      >
+        <PhotoAnalyzer service={service} setValue={setValue} />
       </Card>
 
       {/* Detailed-only global section */}
@@ -590,12 +597,12 @@ export function EstimatorForm({
       </Reveal>
 
       {submitError && (
-        <div className="flex flex-col gap-3 rounded-xl border border-red-300 bg-red-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 rounded-2xl border border-red-200 bg-red-50/80 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm font-medium text-red-700">{submitError}</p>
           <button
             type="submit"
             disabled={submitting}
-            className="shrink-0 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+            className="shrink-0 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700 disabled:opacity-60"
           >
             Retry
           </button>
@@ -604,11 +611,11 @@ export function EstimatorForm({
 
       {/* Sticky submit on mobile; inline on desktop. */}
       <div className="pb-safe fixed inset-x-0 bottom-0 z-10 border-t border-line bg-surface/95 px-4 py-3 backdrop-blur sm:static sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto w-full max-w-7xl">
           <button
             type="submit"
             disabled={submitting}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3.5 text-base font-bold text-white shadow-sm transition hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-70"
+            className="btn-primary flex w-full items-center justify-center gap-2 text-base"
           >
             {submitting ? (
               <>
@@ -616,7 +623,23 @@ export function EstimatorForm({
                 Generating estimate…
               </>
             ) : (
-              "Generate Estimate"
+              <>
+                Generate Estimate
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="h-4 w-4"
+                  aria-hidden
+                >
+                  <path
+                    d="M5 12h14M13 5l7 7-7 7"
+                    stroke="currentColor"
+                    strokeWidth="2.25"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </>
             )}
           </button>
         </div>

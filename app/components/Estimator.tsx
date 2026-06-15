@@ -1,19 +1,26 @@
 "use client";
 
 import { useState } from "react";
+
+import type { Service } from "@/lib/constants";
 import type { EstimateResult } from "@/lib/types";
 import { EstimatorForm } from "./EstimatorForm";
 import { ResultsScreen } from "./ResultsScreen";
+import { ServiceHero } from "./ServiceHero";
 
 /**
- * Top-level state machine: form ↔ results.
+ * Top-level layout: split-screen on desktop (hero left, form right),
+ * stacked on mobile (hero on top, form below).
  *
- * The form unmounts when results show, so "New Estimate" remounts a clean form.
- * Retry (on a failed submit) happens inside the form while it's still mounted,
- * preserving every entered value.
+ * State machine: form ↔ results. The form unmounts when results show, so
+ * "New Estimate" remounts a clean form. The selected service bubbles up so
+ * the hero panel can swap imagery when the rep switches services.
  */
 export function Estimator() {
   const [result, setResult] = useState<EstimateResult | null>(null);
+  const [activeService, setActiveService] = useState<Service>(
+    "Residential Window Cleaning"
+  );
 
   if (result) {
     return (
@@ -22,26 +29,35 @@ export function Estimator() {
   }
 
   return (
-    <div className="flex flex-col gap-6 sm:gap-8">
-      {/* Hero title block — serif, centered, editorial */}
-      <div className="text-center sm:text-left">
-        <span className="tracked text-[10px] font-medium text-primary sm:text-xs">
-          Preliminary Estimate
-        </span>
-        <h1 className="heading-rule heading-rule-center mt-2 font-serif text-3xl font-light tracking-tight text-ink sm:heading-rule sm:text-4xl">
-          New&nbsp;Estimate
-        </h1>
-        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted sm:mx-0 sm:text-[15px]">
-          Generate a preliminary range while door-knocking or on a call.
-          <span className="hidden sm:inline">
-            {" "}
-            This is never a final quote — final pricing is confirmed after site
-            review.
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_minmax(320px,420px)] lg:gap-10">
+      {/* LEFT — form column (mobile: appears second; desktop: first) */}
+      <div className="order-2 flex min-w-0 flex-col gap-6 lg:order-1 lg:gap-8">
+        {/* Hero title block */}
+        <div className="flex flex-col gap-3">
+          <span className="tracked inline-flex w-fit items-center gap-2 rounded-full bg-primary-light px-3 py-1 text-[10px] font-bold text-primary">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />
+            Preliminary Estimate
           </span>
-        </p>
+          <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
+            Build your estimate
+          </h1>
+          <p className="max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+            Generate a preliminary range while door-knocking or on a call. This
+            is never a final quote — final pricing is confirmed after a site
+            review.
+          </p>
+        </div>
+
+        <EstimatorForm
+          onSuccess={setResult}
+          onServiceChange={setActiveService}
+        />
       </div>
 
-      <EstimatorForm onSuccess={setResult} />
+      {/* RIGHT — service hero (mobile: appears first; desktop: sticky right) */}
+      <div className="order-1 lg:order-2">
+        <ServiceHero service={activeService} />
+      </div>
     </div>
   );
 }
