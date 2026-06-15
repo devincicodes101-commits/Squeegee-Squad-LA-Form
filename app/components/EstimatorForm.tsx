@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema, type FormSchema } from "@/lib/schema";
 import type { EstimateApiResponse, EstimateResult } from "@/lib/types";
 import {
+  CONFIDENCE_OVERRIDE,
   ESTIMATE_MODES,
   LA_LOGISTICS_OPTIONS,
   LEAD_SOURCES,
@@ -20,8 +21,10 @@ import {
   PASS_THROUGH_TYPES,
   PROPERTY_TYPES,
   RECURRING_OPTIONS,
+  REVIEW_OVERRIDE,
   SERVICES,
   URGENCY_OPTIONS,
+  YES_NO_BLANK,
 } from "@/lib/constants";
 import { getField, type FieldDef } from "@/lib/fieldRegistry";
 import {
@@ -486,7 +489,7 @@ export function EstimatorForm({
             <SelectField
               id="hasFixedSubQuote"
               label="Have a fixed sub quote?"
-              options={["", "Yes", "No"]}
+              options={YES_NO_BLANK}
               placeholder="—"
               error={errors.hasFixedSubQuote?.message}
               {...register("hasFixedSubQuote")}
@@ -503,7 +506,7 @@ export function EstimatorForm({
             <SelectField
               id="fixedSubQuoteIncludesPassThrough"
               label="Quote includes pass-through?"
-              options={["", "Yes", "No"]}
+              options={YES_NO_BLANK}
               placeholder="—"
               hint="If Yes, sub's quote covers disposal/equipment/etc."
               error={errors.fixedSubQuoteIncludesPassThrough?.message}
@@ -537,7 +540,7 @@ export function EstimatorForm({
             <SelectField
               id="overrideConfidence"
               label="Override confidence"
-              options={["", "High", "Medium", "Low"]}
+              options={CONFIDENCE_OVERRIDE}
               placeholder="—"
               error={errors.overrideConfidence?.message}
               {...register("overrideConfidence")}
@@ -545,7 +548,7 @@ export function EstimatorForm({
             <SelectField
               id="overrideReviewRequired"
               label="Override review required"
-              options={["", "YES", "NO"]}
+              options={REVIEW_OVERRIDE}
               placeholder="—"
               error={errors.overrideReviewRequired?.message}
               {...register("overrideReviewRequired")}
