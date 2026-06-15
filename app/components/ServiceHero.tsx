@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 import type { Service } from "@/lib/constants";
 import { imageForService, metaForService } from "@/lib/serviceImages";
@@ -14,82 +14,50 @@ import { imageForService, metaForService } from "@/lib/serviceImages";
  *
  * Visual: a full-bleed photo for the current service category, with a
  * deep-teal gradient overlay + the category label + tagline. When the rep
- * changes service, the image cross-fades into the next one (200 ms). The
- * underlying photos live in /public/services/{category}.jpg — if a photo is
- * missing the gradient + label still look polished on its own.
+ * changes service, the photo fades in over the gradient (via a CSS keyframe
+ * keyed on the src). The underlying photos live in /public/services/{cat}.jpg
+ * — if one is missing or fails to load, the gradient + label still look
+ * polished on their own, AND other categories remain functional (per-src
+ * failure tracking, not a global flag).
  */
 export function ServiceHero({ service }: { service: Service }) {
   const meta = metaForService(service);
   const imgSrc = imageForService(service);
-
-  // Cross-fade state — `current` is the visible image, `incoming` swaps in over it.
-  const [current, setCurrent] = useState(imgSrc);
-  const [incoming, setIncoming] = useState<string | null>(null);
-  const [hasImage, setHasImage] = useState(true);
-  const lastSrcRef = useRef(imgSrc);
-
-  useEffect(() => {
-    if (imgSrc === lastSrcRef.current) return;
-    lastSrcRef.current = imgSrc;
-    setIncoming(imgSrc);
-    setHasImage(true);
-  }, [imgSrc]);
+  // Per-src failure map so one bad file doesn't break every other category.
+  const [failed, setFailed] = useState<Record<string, boolean>>({});
+  const isAvailable = !failed[imgSrc];
 
   return (
     <aside
       className="relative isolate w-full overflow-hidden rounded-3xl border border-line/60 bg-primary shadow-2xl shadow-primary/10 lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]"
       aria-label={`${meta.label} hero panel`}
     >
-      {/* Layer 1 — gradient fallback (always present; visible if image missing) */}
+      {/* Layer 1 — category gradient (always present; visible behind any image) */}
       <div
         className={`absolute inset-0 bg-gradient-to-br ${meta.gradient}`}
         aria-hidden
       />
 
-      {/* Layer 2 — current image (fades out as `incoming` arrives) */}
-      {hasImage && (
+      {/* Layer 2 — the photo. `key={imgSrc}` remounts on swap so React mounts
+          a fresh <img> and the heroFade keyframe restarts. */}
+      {isAvailable && (
         <img
-          key={`current-${current}`}
-          src={current}
+          key={imgSrc}
+          src={imgSrc}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
-          style={{ opacity: incoming ? 0 : 1 }}
-          onError={() => setHasImage(false)}
+          className="animate-heroFade absolute inset-0 h-full w-full object-cover"
+          onError={() => setFailed((m) => ({ ...m, [imgSrc]: true }))}
           aria-hidden
         />
       )}
 
-      {/* Layer 3 — incoming image (fades in, then promoted to current) */}
-      {hasImage && incoming && (
-        <img
-          key={`incoming-${incoming}`}
-          src={incoming}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 ease-out"
-          onLoad={(e) => {
-            requestAnimationFrame(() => {
-              (e.currentTarget as HTMLImageElement).style.opacity = "1";
-              setTimeout(() => {
-                setCurrent(incoming);
-                setIncoming(null);
-              }, 520);
-            });
-          }}
-          onError={() => {
-            setHasImage(false);
-            setIncoming(null);
-          }}
-          aria-hidden
-        />
-      )}
-
-      {/* Layer 4 — readability gradient (deep teal → clear) */}
+      {/* Layer 3 — readability overlay (deep teal at bottom → clear at top) */}
       <div
-        className="absolute inset-0 bg-gradient-to-t from-primary-dark/90 via-primary-dark/40 to-primary-dark/20"
+        className="absolute inset-0 bg-gradient-to-t from-primary-dark/90 via-primary-dark/40 to-primary-dark/10"
         aria-hidden
       />
 
-      {/* Layer 5 — subtle sparkle / depth */}
+      {/* Layer 4 — subtle sparkles for depth */}
       <svg
         className="pointer-events-none absolute inset-0 h-full w-full opacity-30"
         viewBox="0 0 400 600"
@@ -133,8 +101,9 @@ export function ServiceHero({ service }: { service: Service }) {
           </p>
           <p className="mt-3 max-w-xs text-xs text-surface/75 sm:text-sm">
             <span className="font-semibold text-surface/95">{service}</span>
-            <span className="block mt-1 text-surface/60">
-              Premium service-grade estimate. Final pricing confirmed after site review.
+            <span className="mt-1 block text-surface/60">
+              Premium service-grade estimate. Final pricing confirmed after site
+              review.
             </span>
           </p>
         </div>

@@ -178,3 +178,18 @@ main {
 aside[aria-label$="hero panel"] {
   animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Hero photo cross-fade when service swaps (per-img keyed remount) */
+@keyframes heroFade {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-heroFade {
+  animation: heroFade 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
