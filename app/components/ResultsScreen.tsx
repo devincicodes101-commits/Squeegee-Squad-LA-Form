@@ -73,17 +73,34 @@ export function ResultsScreen({
 
   return (
     <div className="flex flex-col gap-5">
-      {/* Review banner (internal only) */}
-      {result.review_flag === "YES" && (
-        <div className="rounded-2xl border-2 border-amber-400 bg-amber-50 p-4">
-          <p className="text-xs font-bold uppercase tracking-wide text-amber-700">
-            ⚠ Needs review · internal only
-          </p>
-          <p className="mt-1 text-sm font-medium text-amber-900">
-            {result.review_logic || "This estimate was flagged for manual review."}
-          </p>
-        </div>
-      )}
+      {/* Review banner (internal only) — hides margin/gross financial details from view. */}
+      {result.review_flag === "YES" && (() => {
+        // Strip anything that mentions margins, gross, RED APPROVAL, dollar amounts,
+        // or below-minimum floor. Show only the customer-safe review criteria.
+        const safeReviewCriteria = (result.review_logic || "")
+          .split(/;\s*/)
+          .filter((part) => !/YELLOW MARGIN|RED APPROVAL|gross \$|raw \$|floor applied|LOW HOURLY RATE|FIXED SUB QUOTE|OVERRIDE REASON/i.test(part))
+          .join("; ")
+          .trim();
+        const bannerMessage =
+          result.internal_review_message ||
+          "This estimate needs manager review before quoting the customer.";
+        return (
+          <div className="rounded-2xl border-2 border-amber-400 bg-amber-50 p-4">
+            <p className="text-xs font-bold uppercase tracking-wide text-amber-700">
+              ⚠ Needs review · internal only
+            </p>
+            <p className="mt-1 text-sm font-medium text-amber-900">
+              {bannerMessage}
+            </p>
+            {safeReviewCriteria && (
+              <p className="mt-1 text-xs text-amber-800/80">
+                Watch for: {safeReviewCriteria}
+              </p>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Hero */}
       <section className="rounded-2xl border border-line bg-surface p-6 text-center shadow-sm sm:p-10">

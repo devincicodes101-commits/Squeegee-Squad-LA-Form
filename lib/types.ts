@@ -231,6 +231,7 @@ export interface EstimateResult {
   recurring_score: RecurringScore;
   review_flag: YesNo;
   review_logic: string;
+  internal_review_message?: string;
   defaulted_fields: string;
   defaulted_count: number;
   customer_copy: string;
