@@ -40,6 +40,17 @@ const nonNegInt = z
 export const formSchema = z.object({
   estimateMode: z.enum(ESTIMATE_MODES),
 
+  // Customer contact info — collected in-field by the rep
+  customerName: z.string().min(1, "Enter the customer's name").max(120, "Too long"),
+  customerEmail: z
+    .string()
+    .min(1, "Enter the customer's email")
+    .email("Enter a valid email"),
+  customerPhone: z
+    .string()
+    .min(7, "Enter the customer's phone")
+    .max(30, "Too long"),
+
   // Core
   leadSource: z.enum(LEAD_SOURCES, { message: "Select a lead source" }),
   zip: z

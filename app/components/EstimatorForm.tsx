@@ -85,6 +85,9 @@ function Card({
 
 const DEFAULTS: Partial<FormSchema> = {
   estimateMode: "Quick",
+  customerName: "",
+  customerEmail: "",
+  customerPhone: "",
   leadSource: "door knocking",
   address: "",
   propertyType: "Residential",
@@ -289,6 +292,46 @@ export function EstimatorForm({
             />
           )}
         />
+      </Card>
+
+      <Card
+        title="Customer contact"
+        subtitle="Rep-entered — used to follow up and land in the CRM dashboard."
+      >
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <TextField
+            id="customerName"
+            label="Customer Name"
+            required
+            placeholder="Full name"
+            autoComplete="name"
+            error={errors.customerName?.message}
+            {...register("customerName")}
+          />
+          <TextField
+            id="customerPhone"
+            label="Phone Number"
+            required
+            inputMode="tel"
+            placeholder="(310) 555-0100"
+            autoComplete="tel"
+            error={errors.customerPhone?.message}
+            {...register("customerPhone")}
+          />
+          <div className="sm:col-span-2">
+            <TextField
+              id="customerEmail"
+              label="Email"
+              required
+              type="email"
+              inputMode="email"
+              placeholder="name@example.com"
+              autoComplete="email"
+              error={errors.customerEmail?.message}
+              {...register("customerEmail")}
+            />
+          </div>
+        </div>
       </Card>
 
       <Card title="Job basics">

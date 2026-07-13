@@ -45,6 +45,11 @@ import type {
 export interface FormState {
   estimateMode: EstimateMode;
 
+  // Customer contact — collected by rep in-field
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+
   // Core (always visible)
   leadSource: LeadSource;
   zip: number;
@@ -115,6 +120,9 @@ export interface FormState {
  */
 export interface N8nEstimatePayload {
   "Estimate Mode (Quick or Detailed)": EstimateMode;
+  "Full Name": string;
+  "Email": string;
+  "Phone Number": string;
   "Additional Services (optional, brief §15)": string[];
   "Lead Source": LeadSource;
   "ZIP Code": number;

@@ -22,6 +22,9 @@ const QTY_KEY =
 function form(service: Service, over: Partial<FormState>): FormState {
   return {
     estimateMode: "Detailed",
+    customerName: "Sample Customer",
+    customerEmail: "sample@example.com",
+    customerPhone: "555-000-0000",
     leadSource: "phone",
     zip: 90046,
     address: "  123 Main St  ",

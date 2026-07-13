@@ -122,6 +122,10 @@ export function toN8nPayload(form: FormState): N8nEstimatePayload {
   // can never carry NaN or a numeric string; all string keys are trimmed.
   const payload: N8nEstimatePayload = {
     "Estimate Mode (Quick or Detailed)": form.estimateMode,
+    // Customer contact — collected by rep on-site so we can follow up.
+    "Full Name":    (form.customerName  ?? "").trim(),
+    "Email":        (form.customerEmail ?? "").trim(),
+    "Phone Number": (form.customerPhone ?? "").trim(),
     // Detailed-only fields collapse to neutral defaults in Quick mode.
     "Additional Services (optional, brief §15)": detailed
       ? Array.isArray(form.additionalServices)
