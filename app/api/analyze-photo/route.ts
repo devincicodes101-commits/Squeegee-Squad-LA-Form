@@ -129,7 +129,7 @@ export async function POST(request: Request): Promise<Response> {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
       response_format: { type: "json_object" },
-      max_tokens: 700,
+      max_tokens: 1200,
       temperature: 0.2,
       messages: [
         { role: "system", content: SYSTEM_PROMPT },
@@ -141,7 +141,7 @@ export async function POST(request: Request): Promise<Response> {
               (image) =>
                 ({
                   type: "image_url" as const,
-                  image_url: { url: image, detail: "low" as const },
+                  image_url: { url: image, detail: "high" as const },
                 }),
             ),
           ],
